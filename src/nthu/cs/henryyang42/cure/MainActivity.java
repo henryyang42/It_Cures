@@ -40,6 +40,9 @@ public class MainActivity extends Activity implements OnTouchListener {
 
 	private void displayClickedTime() {
 		String clicked = String.valueOf(getClickTimes());
+		textView.setBackgroundColor(Color.argb(rnd.nextInt(128),
+				rnd.nextInt(200), 128 + rnd.nextInt(128),
+				128 + rnd.nextInt(128)));
 		int fontSize = 150;
 		textView.setTextSize(fontSize);
 		textView.setText(clicked);
@@ -47,8 +50,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
-		view.setBackgroundColor(Color.argb(rnd.nextInt(128), rnd.nextInt(200),
-				128 + rnd.nextInt(128), 128 + rnd.nextInt(128)));
 		addClickTimes();
 		displayClickedTime();
 		return false;
