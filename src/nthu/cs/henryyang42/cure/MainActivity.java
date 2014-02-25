@@ -4,6 +4,9 @@ import java.util.Random;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -36,6 +39,20 @@ public class MainActivity extends Activity implements OnTouchListener {
 
 	private void addClickTimes() {
 		settings.edit().putInt("click_times", getClickTimes() + 1).commit();
+		updateWidget();
+	}
+
+	private void updateWidget() {
+		Intent intent = new Intent(this, CureWidget.class);
+		intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+		// Use an array and EXTRA_APPWIDGET_IDS instead of
+		// AppWidgetManager.EXTRA_APPWIDGET_ID,
+		// since it seems the onUpdate() is only fired on that:
+		int ids[] = AppWidgetManager.getInstance(getApplication())
+				.getAppWidgetIds(
+						new ComponentName(getApplication(), CureWidget.class));
+		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+		sendBroadcast(intent);
 	}
 
 	private void displayClickedTime() {
@@ -54,4 +71,5 @@ public class MainActivity extends Activity implements OnTouchListener {
 		displayClickedTime();
 		return false;
 	}
+
 }
